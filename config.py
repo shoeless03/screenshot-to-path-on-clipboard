@@ -20,7 +20,7 @@ def _default_save_dir():
 
 
 def load():
-    cfg = {"save_dir": _default_save_dir(), "icon_path": ""}
+    cfg = {"save_dir": _default_save_dir(), "icon_path": "", "copy_mode": "path"}
     if _CONFIG_FILE.exists():
         try:
             data = json.loads(_CONFIG_FILE.read_text())
@@ -30,6 +30,9 @@ def load():
             icon_path = data.get("icon_path", "")
             if isinstance(icon_path, str):
                 cfg["icon_path"] = icon_path
+            copy_mode = data.get("copy_mode", "path")
+            if copy_mode in ("path", "image"):
+                cfg["copy_mode"] = copy_mode
         except (json.JSONDecodeError, KeyError):
             pass
     return cfg

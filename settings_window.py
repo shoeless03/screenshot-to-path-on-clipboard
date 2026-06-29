@@ -49,9 +49,20 @@ def show(root):
 
     tk.Button(icon_frame, text="Browse...", command=browse_icon).pack(side=tk.LEFT, padx=(5, 0))
 
+    # Copy mode
+    tk.Label(frame, text="Copy to Clipboard:", anchor="w").pack(fill=tk.X)
+
+    copy_frame = tk.Frame(frame)
+    copy_frame.pack(fill=tk.X, pady=(2, 10))
+
+    copy_var = tk.StringVar(value=cfg.get("copy_mode", "path"))
+    tk.Radiobutton(copy_frame, text="File path", variable=copy_var, value="path").pack(side=tk.LEFT, padx=(0, 15))
+    tk.Radiobutton(copy_frame, text="Image", variable=copy_var, value="image").pack(side=tk.LEFT)
+
     def on_save():
         cfg["save_dir"] = dir_var.get()
         cfg["icon_path"] = icon_var.get()
+        cfg["copy_mode"] = copy_var.get()
         config.save(cfg)
         win.destroy()
 

@@ -30,7 +30,13 @@ def take_screenshot(root):
         return
     cropped = capture.crop(screen, region)
     path = storage.save(cropped)
-    clipboard.copy(path)
+
+    import config
+    cfg = config.load()
+    if cfg.get("copy_mode", "path") == "image":
+        clipboard.copy_image(cropped)
+    else:
+        clipboard.copy_path(path)
 
 
 def main():
